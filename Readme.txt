@@ -1,11 +1,7 @@
-Project Members
+Cloud and Big Data project TweetMap - real time heat map of twitter streaming data
 
-1. Anshuman Singh - as4916
-2. Tanaya Thaly - tpt2109
+Done by:
+1. Gaurang Sadekar (UNI: gss2147)
+2. Viral Shah (UNI: vrs2119)
 
-Beanstalk App location is at the following location: 
-
-twitter-map-dev.elasticbeanstalk.com
-
-GitHub Link is at the following location: 
-https://github.com/ANSSIN/TwitterVisualization.git
+Project Code is at: https://github.com/gaurangsadekar/cloud-tweetmap
