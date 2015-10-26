@@ -1,0 +1,15 @@
+{
+  "name": "twitter-heatmap",
+  "version": "0.0.1",
+  "author": "Anshuman",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "twitter": "*",
+    "socket.io": "*",
+    "mongodb" : "*"
+  }
+}
