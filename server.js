@@ -11,14 +11,14 @@ io = require('socket.io').listen(server);
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://52.27.87.224:27017/tweetDB';
+var url = '';
 
 //Setup twitter stream api
 var twit = new twitter({
-  consumer_key: '',
-  consumer_secret: '',
-  access_token_key: '',
-  access_token_secret: ''
+  consumer_key: 'CLbQDiBRjNn1NGEE0wJ2yNtxb',
+  consumer_secret: 'sJRdATSUzFWYJ1F2Ko28iLcWAQpYOsRjEX3EE0OoWW4XHoNGIl',
+  access_token_key: '140911269-fETxwkzza6f4n0MX1j6Saf7btgV7Vd1OBWdJKjVr',
+  access_token_secret: 'yOkNGkoOvtqtNre0L0rsNyYhhlIltkRWHz5sWVLFsmWFj'
 }),
 stream = null;
 
