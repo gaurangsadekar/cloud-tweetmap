@@ -1,7 +1,7 @@
 {
   "name": "twitter-heatmap",
   "version": "0.0.1",
-  "author": "Anshuman",
+  "author": "",
   "private": true,
   "scripts": {
     "start": "node app"
@@ -10,6 +10,7 @@
     "express": "*",
     "twitter": "*",
     "socket.io": "*",
-    "mongodb" : "*"
+    "mongodb" : "*",
+    "alchemy-api" : "*"
   }
 }

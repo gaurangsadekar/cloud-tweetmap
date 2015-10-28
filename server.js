@@ -11,7 +11,8 @@ io = require('socket.io').listen(server);
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-var url = '';
+var AlchemyAPI = require('alchemy-api')
+var url = 'mongodb://54.200.167.60:27017/tweetDB';
 
 //Setup twitter stream api
 var twit = new twitter({
@@ -35,21 +36,32 @@ io.sockets.on('connection', function (socket) {
   socket.on("start tweets", function() {
     if(stream === null) {
       //Connect to twitter stream passing in filter for entire world.
-      twit.stream('statuses/filter', {track : 'love, football, tech, trump, india'}, function(stream) {
+      twit.stream('statuses/filter', {track : 'love, football, tech, trump, india, sanders, modi, ferguson, assault'}, function(stream) {
           stream.on('data', function(data) {
-              console.log(data.text);
               // Does the JSON result have coordinates
               if (data.coordinates){
                 console.log(data.text);
-                console.log("location found");
                 if (data.coordinates !== null){
+                var alchemy = new AlchemyAPI('3c592701a603462b55abad073040d969cb9bea5c');
+                alchemy.sentiment(data.text, {}, function(err, response) {
+                  if (err) throw err;
+                  // See http://www.alchemyapi.com/api/ for format of returned object
+                  var sentiment = response.docSentiment;
+                  console.log(JSON.stringify(sentiment));
                   // Send lat, lng and tweet text to the web socket
-                  var outputPoint = {"lat": data.coordinates.coordinates[0],"lng": data.coordinates.coordinates[1], "text" : data.text};
+                  if (sentiment) {
+                  var outputPoint = {"lat": data.coordinates.coordinates[0],"lng": data.coordinates.coordinates[1], "text" : data.text, "sentiment":sentiment.type};
+                  console.log(outputPoint);
+                  }
+                  else {
+                    var outputPoint = {"lat": data.coordinates.coordinates[0],"lng": data.coordinates.coordinates[1], "text" : data.text};
+                    console.log(outputPoint);
+                  }
                   socket.broadcast.emit("twitter-stream", outputPoint);
                   //Send out to web sockets channel.
                   socket.emit('twitter-stream', outputPoint);
                   console.log("Storing tweet into MongoDB");
-                  db.collection('tweets').insertOne({
+                  db.collection('tweetRecords').insertOne({
 	    		             "tweet_id" : data.id,
 	    	               "tweet_id_str" : data.id_str,
 	    	               "tweet_created_at" : data.created_at,
@@ -59,12 +71,13 @@ io.sockets.on('connection', function (socket) {
 	    	               "geo":data.geo,
 	    	               "retweet_count" : data.retweet_count,
 	    	               "favourite_count" : data.favorite_count,
-	    	               "coordinate":data.coordinates,
-	    	               "possibly_sensitive":data.possibly_sensitive
+	    	               "coordinate":data.coordinates
 	                  }
 	    	            , function(err, result) {
                           if(err) throw err;
                 });
+
+              });
               }
                 else if(data.place){
                   if(data.place.bounding_box === 'Polygon'){
@@ -110,10 +123,10 @@ io.sockets.on('connection', function (socket) {
        var cursor;
        if(keyword == "all")
        {
-		   cursor = db.collection('tweets').find();
+		   cursor = db.collection('tweetRecords').find();
             }
      else {
-       cursor = db.collection('tweets').find(  { $or: [ { "tweet_text" :  new RegExp(keyword) } , {"tweet_text" :  new RegExp(capitalizedKeyword)} ] });
+       cursor = db.collection('tweetRecords').find(  { $or: [ { "tweet_text" :  new RegExp(keyword) } , {"tweet_text" :  new RegExp(capitalizedKeyword)} ] });
       }
 		   cursor.each(function(err, doc) {
 		      assert.equal(err, null);

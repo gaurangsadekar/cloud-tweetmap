@@ -61,7 +61,12 @@ function initialize() {
         liveTweets.push(tweetLocation);
 
         //Flash a dot onto the map quickly
-        var image = "css/small-dot-icon.png";
+        if (data.sentiment == "positive")
+          var image = "css/small-dot-icon.png";
+        else {
+          var image = "css/black_dot.png";
+          console.log("image is cross");
+        }
         var marker = new google.maps.Marker({
           position: tweetLocation,
           map: map,
