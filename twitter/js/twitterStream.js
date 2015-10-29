@@ -53,20 +53,22 @@ function initialize() {
       var keyword = keywordElement.value;
       //Add tweet to the heat map array.
       var tweetText = data.text.toLowerCase();
-      console.log(keyword + " should be present in " + tweetText);
+
+      if (data.sentiment == "positive" || data.sentiment === null || data.sentiment == undefined) {
+        var image = "css/map-marker-green.png";
+      }
+      else if (data.sentiment == "neutral"){
+        var image = "css/map-marker-yellow.png";
+      }
+      else {
+        var image = "css/map-marker-red.png";
+      }
+
       if(keyword == "all")
       {
         console.log("Entered keyword " + keyword);
         var tweetLocation = new google.maps.LatLng(data.lng,data.lat);
         liveTweets.push(tweetLocation);
-
-        //Flash a dot onto the map quickly
-        if (data.sentiment == "positive")
-          var image = "css/small-dot-icon.png";
-        else {
-          var image = "css/black_dot.png";
-          console.log("image is cross");
-        }
         var marker = new google.maps.Marker({
           position: tweetLocation,
           map: map,
@@ -79,13 +81,13 @@ function initialize() {
       }
       else if(tweetText.indexOf(keyword) > -1)
     	{
-
-        console.log("Entered keyword" + keyword);
+        console.log("Entered keyword " + keyword);
+        console.log(keyword + " should be present in " + tweetText);
         var tweetLocation = new google.maps.LatLng(data.lng,data.lat);
         liveTweets.push(tweetLocation);
 
         //Flash a dot onto the map quickly
-        var image = "css/small-dot-icon.png";
+        //var image = "css/small-dot-icon.png";
         var marker = new google.maps.Marker({
           position: tweetLocation,
           map: map,
@@ -117,6 +119,16 @@ function initialize() {
 
         var tweetText = data.text.toLowerCase();
         console.log(tweetText);
+
+        if (data.sentiment == "positive" || data.sentiment === null || data.sentiment == undefined) {
+          var image = "css/map-marker-green.png";
+        }
+        else if (data.sentiment == "neutral"){
+          var image = "css/map-marker-yellow.png";
+        }
+        else {
+          var image = "css/map-marker-red.png";
+        }
         //Filtering logic
         if(keyword == "all")
         {
@@ -125,7 +137,7 @@ function initialize() {
           liveTweets.push(tweetLocation);
 
           //Flash a dot onto the map quickly
-          var image = "css/small-dot-icon.png";
+          //var image = "css/small-dot-icon.png";
           var marker = new google.maps.Marker({
             position: tweetLocation,
             map: map,
@@ -143,7 +155,7 @@ function initialize() {
             liveTweets.push(tweetLocation);
 
             //Flash a dot onto the map quickly
-            var image = "css/small-dot-icon.png";
+            //var image = "css/small-dot-icon.png";
             var marker = new google.maps.Marker({
               position: tweetLocation,
               map: map,
@@ -157,7 +169,7 @@ function initialize() {
 
 
     socket.on("connected", function(r) {
-      console.log("Emitting start tweets");
+      console.log("Starting to emit tweets");
       socket.emit("start tweets");
             });
 
