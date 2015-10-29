@@ -120,10 +120,10 @@ function initialize() {
         var tweetText = data.text.toLowerCase();
         console.log(tweetText);
 
-        if (data.sentiment == "positive" || data.sentiment === null || data.sentiment == undefined) {
+        if (data.sentiment == "positive") {
           var image = "css/map-marker-green.png";
         }
-        else if (data.sentiment == "neutral"){
+        else if (data.sentiment == "neutral" || data.sentiment === null || data.sentiment == undefined){
           var image = "css/map-marker-yellow.png";
         }
         else {
