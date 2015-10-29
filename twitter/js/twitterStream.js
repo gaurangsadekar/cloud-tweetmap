@@ -77,7 +77,7 @@ function initialize() {
 
       setTimeout(function(){
         marker.setMap(null);
-      },600);
+      },1000);
       }
       else if(tweetText.indexOf(keyword) > -1)
     	{
@@ -96,7 +96,7 @@ function initialize() {
 
       setTimeout(function(){
         marker.setMap(null);
-      },600);
+      },1000);
     	  }
     });
 
@@ -146,7 +146,7 @@ function initialize() {
 
         setTimeout(function(){
           marker.setMap(null);
-        },600);
+        },1000);
         }
         else if(tweetText.indexOf(keyword) > -1)
       	  {
@@ -163,7 +163,7 @@ function initialize() {
             });
             setTimeout(function(){
               marker.setMap(null);
-            },600);
+            },1000);
       	  }
       });
 
